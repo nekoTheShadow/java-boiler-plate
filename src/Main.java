@@ -54,20 +54,8 @@ public class Main {
             return Double.parseDouble(nextString());
         }
 
-        public int[] nextIntArray(int n) {
-            int[] a = new int[n];
-            for (int i = 0; i < n; i++) {
-                a[i] = nextInt();
-            }
-            return a;
-        }
-
-        public double[] nextDoubleArray(int n) {
-            double[] a = new double[n];
-            for (int i = 0; i < n; i++) {
-                a[i] = nextDouble();
-            }
-            return a;
+        public long nextLong() {
+            return Long.parseLong(nextString());
         }
     }
 
