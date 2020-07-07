@@ -12,16 +12,16 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Main {
-    public void exec(Stdin stdin, Stdout stdout) {
+    public void exec() {
     }
+
+    private static final Stdin stdin = new Stdin();
+    private static final Stdout stdout = new Stdout();
 
     public static void main(String[] args) {
-        Stdin stdin = new Stdin();
-        Stdout stdout = new Stdout();
-        new Main().exec(stdin, stdout);
+        new Main().exec();
         stdout.flush();
     }
-
 
     public static class Stdin {
         private BufferedReader stdin;
