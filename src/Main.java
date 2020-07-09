@@ -57,6 +57,30 @@ public class Main {
         public long nextLong() {
             return Long.parseLong(nextString());
         }
+
+        public String[] nextStringArray(int n) {
+            String[] a = new String[n];
+            for (int i = 0; i < n; i++) a[i] = nextString();
+            return a;
+        }
+
+        public int[] nextIntArray(int n) {
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = nextInt();
+            return a;
+        }
+
+        public double[] nextDoubleArray(int n) {
+            double[] a = new double[n];
+            for (int i = 0; i < n; i++) a[i] = nextDouble();
+            return a;
+        }
+
+        public long[] nextLongArray(int n) {
+            long[] a = new long[n];
+            for (int i = 0; i < n; i++) a[i] = nextLong();
+            return a;
+        }
     }
 
     public static class Stdout {
