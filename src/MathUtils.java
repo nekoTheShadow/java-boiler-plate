@@ -1,5 +1,5 @@
 
-public final class MathUtils {
+public class MathUtils {
     private MathUtils() {}
 
     public static long modPow(long x, long y, long mod) {
