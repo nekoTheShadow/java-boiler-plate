@@ -1,12 +1,16 @@
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -19,8 +23,11 @@ public class Main {
     private static final Stdout stdout = new Stdout();
 
     public static void main(String[] args) {
-        new Main().exec();
-        stdout.flush();
+        try {
+            new Main().exec();
+        } finally {
+            stdout.flush();
+        }
     }
 
     public static class Stdin {
@@ -38,6 +45,9 @@ public class Main {
             try {
                 if (tokens.isEmpty()) {
                     String line = stdin.readLine();
+                    if (line == null) {
+                        throw new UncheckedIOException(new EOFException());
+                    }
                     delim.splitAsStream(line).forEach(tokens::addLast);
                 }
                 return tokens.pollFirst();
@@ -91,25 +101,56 @@ public class Main {
         }
 
         public void printf(String format, Object ... args) {
-            stdout.printf(format, args);
+            String line = String.format(format, args);
+            if (line.endsWith(System.lineSeparator())) {
+                stdout.print(line);
+            } else {
+                stdout.println(line);
+            }
         }
 
-        public void println(Object ... objs) {
+        public void println(Object o) {
+            stdout.println(o);
+        }
+
+        public void debug(Object ... objs) {
             String line = Arrays.stream(objs).map(this::deepToString).collect(Collectors.joining(" "));
-            stdout.println(line);
+            stdout.printf("DEBUG: %s%n", line);
         }
 
         private String deepToString(Object o) {
-            if (o == null || !o.getClass().isArray()) {
+            if (o == null) {
+                return "null";
+            }
+
+            Class<?> clazz = o.getClass();
+
+            // 配列の場合
+            if (clazz.isArray()) {
+                int len = Array.getLength(o);
+                String[] tokens = new String[len];
+                for (int i = 0; i < len; i++) {
+                    tokens[i] = deepToString(Array.get(o, i));
+                }
+                return "{" + String.join(",", tokens) + "}";
+            }
+
+            // toStringがOverrideされている場合
+            if (Arrays.stream(clazz.getDeclaredMethods()).anyMatch(method -> method.getName().equals("toString") && method.getParameterCount() == 0)) {
                 return Objects.toString(o);
             }
 
-            int len = Array.getLength(o);
-            String[] tokens = new String[len];
-            for (int i = 0; i < len; i++) {
-                tokens[i] = deepToString(Array.get(o, i));
+            // Tupleの場合 (フィールドがすべてpublicのJava Beans)
+            try {
+                List<String> tokens = new ArrayList<>();
+                for (Field field : clazz.getFields()) {
+                    String token = String.format("%s=%s", field.getName(), deepToString(field.get(o)));
+                    tokens.add(token);
+                }
+                return String.format("%s:[%s]", clazz.getName(), String.join(",", tokens));
+            } catch (IllegalAccessException e) {
+                throw new IllegalArgumentException(e);
             }
-            return "{" + String.join(",", tokens) + "}";
         }
 
         public void flush() {
