@@ -8,14 +8,14 @@ public class UnionFind {
     public UnionFind(int n) {
         this.parent = IntStream.range(0, n).toArray();
         this.size = new int[n];
-        Arrays.fill(this.size, 0);
+        Arrays.fill(this.size, 1);
     }
 
     public int find(int x) {
         if (parent[x] == x) {
             return x;
         }
-        parent[x] = find(x);
+        parent[x] = find(parent[x]);
         return parent[x];
     }
 
