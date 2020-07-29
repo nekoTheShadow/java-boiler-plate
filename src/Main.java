@@ -109,8 +109,9 @@ public class Main {
             }
         }
 
-        public void println(Object o) {
-            stdout.println(o);
+        public void println(Object ... o) {
+            String line = Arrays.stream(o).map(Objects::toString).collect(Collectors.joining(" "));
+            stdout.println(line);
         }
 
         public void debug(Object ... objs) {
