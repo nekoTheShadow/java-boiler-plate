@@ -5,12 +5,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -124,10 +121,8 @@ public class Main {
                 return "null";
             }
 
-            Class<?> clazz = o.getClass();
-
             // 配列の場合
-            if (clazz.isArray()) {
+            if (o.getClass().isArray()) {
                 int len = Array.getLength(o);
                 String[] tokens = new String[len];
                 for (int i = 0; i < len; i++) {
@@ -136,22 +131,7 @@ public class Main {
                 return "{" + String.join(",", tokens) + "}";
             }
 
-            // toStringがOverrideされている場合
-            if (Arrays.stream(clazz.getDeclaredMethods()).anyMatch(method -> method.getName().equals("toString") && method.getParameterCount() == 0)) {
-                return Objects.toString(o);
-            }
-
-            // Tupleの場合 (フィールドがすべてpublicのJava Beans)
-            try {
-                List<String> tokens = new ArrayList<>();
-                for (Field field : clazz.getFields()) {
-                    String token = String.format("%s=%s", field.getName(), deepToString(field.get(o)));
-                    tokens.add(token);
-                }
-                return String.format("%s:[%s]", clazz.getName(), String.join(",", tokens));
-            } catch (IllegalAccessException e) {
-                throw new IllegalArgumentException(e);
-            }
+            return Objects.toString(o);
         }
 
         public void flush() {
