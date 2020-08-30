@@ -1,3 +1,5 @@
+import java.util.HashMap;
+import java.util.Map;
 
 public class MathUtils {
     private MathUtils() {}
@@ -33,4 +35,37 @@ public class MathUtils {
         }
         return z;
     }
+
+    public static Map<Integer, Integer> primeDivision(int n) {
+        Map<Integer, Integer> d = new HashMap<>();
+        for (int k = 2; k*k <= n; k++) {
+            while (n % k == 0) {
+                d.put(k, d.getOrDefault(k, 0) + 1);
+                n  /= k;
+            }
+        }
+
+        if (n > 1) {
+            d.put(n, d.getOrDefault(n, 0) + 1);
+        }
+
+        return d;
+    }
+
+    public static int gcd(int x, int y) {
+        if (x < y) {
+            int tmp = x;
+            x = y;
+            y= tmp;
+        }
+
+        while (y > 0) {
+            int mod = x % y;
+            x = y;
+            y = mod;
+        }
+
+        return x;
+    }
+
 }
