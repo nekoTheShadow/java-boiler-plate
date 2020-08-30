@@ -106,8 +106,8 @@ public class Main {
             }
         }
 
-        public void println(Object ... o) {
-            String line = Arrays.stream(o).map(Objects::toString).collect(Collectors.joining(" "));
+        public void println(Object ... objs) {
+            String line = Arrays.stream(objs).map(Objects::toString).collect(Collectors.joining(" "));
             stdout.println(line);
         }
 
@@ -134,7 +134,7 @@ public class Main {
             return Objects.toString(o);
         }
 
-        public void flush() {
+        private void flush() {
             stdout.flush();
         }
     }
