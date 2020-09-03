@@ -111,9 +111,10 @@ public class Main {
             stdout.println(line);
         }
 
-        public void debug(Object ... objs) {
+        public void printDebug(Object ... objs) {
             String line = Arrays.stream(objs).map(this::deepToString).collect(Collectors.joining(" "));
             stdout.printf("DEBUG: %s%n", line);
+            stdout.flush();
         }
 
         private String deepToString(Object o) {
