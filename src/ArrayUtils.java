@@ -1,4 +1,6 @@
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ArrayUtils {
     private ArrayUtils() {}
@@ -109,5 +111,13 @@ public class ArrayUtils {
             }
         }
         return ok;
+    }
+
+    public static String join(int[] a, String delimiter) {
+        return Arrays.stream(a).mapToObj(String::valueOf).collect(Collectors.joining(delimiter));
+    }
+
+    public static String join(long[] a, String delimiter) {
+        return Arrays.stream(a).mapToObj(String::valueOf).collect(Collectors.joining(delimiter));
     }
 }
