@@ -2,9 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MathUtils {
-    private MathUtils() {}
-
-    public static long modPow(long x, long y, long mod) {
+    public long modPow(long x, long y, long mod) {
         long z = 1;
         while (y > 0) {
             if (y % 2 == 0) {
@@ -18,11 +16,11 @@ public class MathUtils {
         return z;
     }
 
-    public static long modInv(long x, long mod) {
+    public long modInv(long x, long mod) {
         return modPow(x, mod - 2, mod);
     }
 
-    public static long pow(long x, long y) {
+    public long pow(long x, long y) {
         long z = 1;
         while (y > 0) {
             if (y % 2 == 0) {
@@ -36,7 +34,7 @@ public class MathUtils {
         return z;
     }
 
-    public static Map<Integer, Integer> primeDivision(int n) {
+    public Map<Integer, Integer> primeDivision(int n) {
         Map<Integer, Integer> d = new HashMap<>();
         for (int k = 2; k*k <= n; k++) {
             while (n % k == 0) {
@@ -52,7 +50,7 @@ public class MathUtils {
         return d;
     }
 
-    public static int gcd(int x, int y) {
+    public int gcd(int x, int y) {
         if (x < y) {
             int tmp = x;
             x = y;
