@@ -1,22 +1,17 @@
-import java.io.BufferedReader;
-import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
-import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.Objects;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class Main {
     public void exec() {
     }
 
-    private static final Stdin stdin = new Stdin();
+    private static final Stdin stdin = new Stdin(System.in);
     private static final Stdout stdout = new Stdout();
 
     public static void main(String[] args) {
@@ -28,33 +23,29 @@ public class Main {
     }
 
     public static class Stdin {
-        private BufferedReader stdin;
-        private Deque<String> tokens;
-        private Pattern delim;
+        private InputStream in;
+        private byte[] buf;
+        private int ptr;
+        private int len;
 
-        public Stdin() {
-            stdin = new BufferedReader(new InputStreamReader(System.in));
-            tokens = new ArrayDeque<>();
-            delim = Pattern.compile(" ");
+        public Stdin(InputStream in) {
+            this.in = in;
+            this.buf = new byte[1024];
+            this.ptr = 0;
+            this.len = 0;
         }
 
         public String nextString() {
-            try {
-                if (tokens.isEmpty()) {
-                    String line = stdin.readLine();
-                    if (line == null) {
-                        throw new UncheckedIOException(new EOFException());
-                    }
-                    delim.splitAsStream(line).forEach(tokens::addLast);
-                }
-                return tokens.pollFirst();
-            } catch (IOException e) {
-                throw new UncheckedIOException(e);
+            StringBuilder sb = new StringBuilder();
+            byte b;
+            while ((b = read()) != -1) {
+                sb.appendCodePoint(b);
             }
+            return sb.toString();
         }
 
         public int nextInt() {
-            return Integer.parseInt(nextString());
+            return (int)nextLong();
         }
 
         public double nextDouble() {
@@ -62,7 +53,47 @@ public class Main {
         }
 
         public long nextLong() {
-            return Long.parseLong(nextString());
+            boolean negative = false;
+            int x = 0;
+
+            byte b = read();
+            if (b == '-') {
+                negative = true;
+            } else {
+                x += b-'0';
+            }
+
+            while ((b=read()) != -1) {
+                x *= 10;
+                x += b-'0';
+            }
+
+            return negative ? -x : x;
+        }
+
+        private byte read() {
+            byte b = readByte();
+            if (b == '\r') {
+                readByte(); // LFを読み飛ばす
+                return -1;
+            } else if (b == '\n' || b == ' ') {
+                return -1;
+            } else {
+                return b;
+            }
+        }
+
+        private byte readByte(){
+            if (len == ptr) {
+                try {
+                    ptr = 0;
+                    len = in.read(buf);
+                    if (len == -1) return -1;
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
+            }
+            return buf[ptr++];
         }
 
         public String[] nextStringArray(int n) {
