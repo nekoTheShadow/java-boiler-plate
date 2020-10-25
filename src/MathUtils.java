@@ -32,15 +32,15 @@ public class MathUtils {
         return d;
     }
 
-    public int gcd(int x, int y) {
+    public long gcd(long x, long y) {
         if (x < y) {
-            int tmp = x;
+            long tmp = x;
             x = y;
             y= tmp;
         }
 
         while (y > 0) {
-            int mod = x % y;
+            long mod = x % y;
             x = y;
             y = mod;
         }
@@ -48,4 +48,7 @@ public class MathUtils {
         return x;
     }
 
+    public long lcm(long x, long y) {
+        return (x * y) / gcd(x, y);
+    }
 }
