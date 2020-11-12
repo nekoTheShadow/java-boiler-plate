@@ -4,7 +4,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class Main {
@@ -23,6 +22,7 @@ public class Main {
         }
     }
 
+    // ASCII ONLY
     public static class Stdin {
         private InputStream in;
         private byte[] buf;
@@ -37,14 +37,12 @@ public class Main {
         }
 
         public String nextString() {
-            byte[] bytes = new byte[1024];
-            int length = 0;
+            StringBuilder sb = new StringBuilder();
             byte b;
             while ((b = read()) != -1) {
-                if (bytes.length == length) bytes = Arrays.copyOf(bytes, bytes.length+1024);
-                bytes[length++] = b;
+                sb.appendCodePoint(b);
             }
-            return new String(bytes, 0, length);
+            return sb.toString();
         }
 
         public int nextInt() {
