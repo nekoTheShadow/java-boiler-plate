@@ -1,18 +1,19 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Main {
     public void exec() {
     }
 
     private static final Stdin stdin = new Stdin(System.in);
-    private static final Stdout stdout = new Stdout();
+    private static final Stdout stdout = new Stdout(System.out);
+    private static final Stderr stderr = new Stderr(System.err, false);
 
     public static void main(String[] args) {
         try {
@@ -126,28 +127,42 @@ public class Main {
     public static class Stdout {
         private PrintWriter stdout;
 
-        public Stdout() {
-            stdout =  new PrintWriter(System.out, false);
-        }
-
-        public void printf(String format, Object ... args) {
-            String line = String.format(format, args);
-            if (line.endsWith(System.lineSeparator())) {
-                stdout.print(line);
-            } else {
-                stdout.println(line);
-            }
+        public Stdout(PrintStream stdout) {
+            this.stdout =  new PrintWriter(stdout, false);
         }
 
         public void println(Object ... objs) {
-            String line = Arrays.stream(objs).map(Objects::toString).collect(Collectors.joining(" "));
-            stdout.println(line);
+            for (int i = 0, len = objs.length; i < len; i++) {
+                stdout.print(objs[i]);
+                if (i != len-1) stdout.print(' ');
+            }
+            stdout.println();
         }
 
-        public void printDebug(Object ... objs) {
-            String line = Arrays.stream(objs).map(this::deepToString).collect(Collectors.joining(" "));
-            stdout.printf("DEBUG: %s%n", line);
+        public void flush() {
             stdout.flush();
+        }
+    }
+
+    public static class Stderr {
+        private PrintWriter stderr;
+        private boolean debug;
+
+        public Stderr(PrintStream stderr, boolean debug) {
+            this.stderr =  new PrintWriter(stderr, false);
+            this.debug = debug;
+        }
+
+        public void println(Object ... objs) {
+            if (!debug) return ;
+
+            stderr.print("DEBUG: ");
+            for (int i = 0, len = objs.length; i < len; i++) {
+                stderr.print(deepToString(objs[i]));
+                if (i != len-1) stderr.print(' ');
+            }
+            stderr.println();
+            stderr.flush();
         }
 
         private String deepToString(Object o) {
@@ -162,14 +177,10 @@ public class Main {
                 for (int i = 0; i < len; i++) {
                     tokens[i] = deepToString(Array.get(o, i));
                 }
-                return "{" + String.join(",", tokens) + "}";
+                return "{" + String.join(", ", tokens) + "}";
             }
 
             return Objects.toString(o);
-        }
-
-        private void flush() {
-            stdout.flush();
         }
     }
 }

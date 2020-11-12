@@ -1,8 +1,12 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.PrintStream;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 public class MainTest {
@@ -25,4 +29,52 @@ public class MainTest {
         assertEquals("日本語", stdin.nextString());
         assertEquals("𩸽", stdin.nextString());
     }
+
+    @Test
+    public void testStdout() {
+        ByteArrayOutputStream content = new ByteArrayOutputStream();
+        Main.Stdout stdout = new Main.Stdout(new PrintStream(content));
+        stdout.println(1, "2", 3.4);
+        assertTrue(content.size() == 0, "Flushするまでは出力しない");
+        stdout.flush();
+        assertEquals("1 2 3.4" + System.lineSeparator(), content.toString());
+    }
+
+    @Nested
+    public class TestStderr {
+        ByteArrayOutputStream content;
+        Main.Stderr stderr;
+
+        @BeforeEach
+        public void setUp() {
+            this.content = new ByteArrayOutputStream();
+            this.stderr = new Main.Stderr(new PrintStream(content), true);
+        }
+
+        @Test
+        public void debugモードの場合はデバッグ出力する() {
+            stderr.println(1, "2", 3.4);
+            assertEquals("DEBUG: 1 2 3.4" + System.lineSeparator(), content.toString());
+        }
+
+        @Test
+        public void debugモードではない場合は何も出力しない() {
+            stderr = new Main.Stderr(new PrintStream(content), false);
+            stderr.println(1, "2", 3.4);
+            assertTrue(content.size() == 0);
+        }
+
+        @Test
+        public void _1次元配列をPrettyPrintする() {
+            stderr.println(new int[] {1, 2, 3});
+            assertEquals("DEBUG: {1, 2, 3}" + System.lineSeparator(), content.toString());
+        }
+
+        @Test
+        public void _2次元配列をPrettyPrintする() {
+            stderr.println(new int[][] {{1, 2}, {3, 4}});
+            assertEquals("DEBUG: {{1, 2}, {3, 4}}" + System.lineSeparator(), content.toString());
+        }
+    }
+
 }
