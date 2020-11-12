@@ -9,7 +9,7 @@ public class MainTest {
 
     @Test
     public void testStdin() {
-        InputStream is = new ByteArrayInputStream("111 222 333\nABC DEF GHI\r\n444 555\n66.66\r\n-77 -88".getBytes());
+        InputStream is = new ByteArrayInputStream("111 222 333\nABC DEF GHI\r\n444 555\n66.66\r\n-77 -88\n日本語 𩸽".getBytes());
         Main.Stdin stdin = new Main.Stdin(is);
         assertEquals(111, stdin.nextInt());
         assertEquals(222, stdin.nextInt());
@@ -22,5 +22,7 @@ public class MainTest {
         assertEquals(66.66, stdin.nextDouble());
         assertEquals(-77, stdin.nextInt());
         assertEquals(-88, stdin.nextInt());
+        assertEquals("日本語", stdin.nextString());
+        assertEquals("𩸽", stdin.nextString());
     }
 }

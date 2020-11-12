@@ -36,12 +36,14 @@ public class Main {
         }
 
         public String nextString() {
-            StringBuilder sb = new StringBuilder();
+            byte[] bytes = new byte[1024];
+            int length = 0;
             byte b;
             while ((b = read()) != -1) {
-                sb.appendCodePoint(b);
+                if (bytes.length == length) bytes = Arrays.copyOf(bytes, bytes.length+1024);
+                bytes[length++] = b;
             }
-            return sb.toString();
+            return new String(bytes, 0, length);
         }
 
         public int nextInt() {
