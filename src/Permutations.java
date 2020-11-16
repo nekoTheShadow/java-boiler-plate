@@ -16,13 +16,13 @@ public  class Permutations<T> implements Iterable<List<T>>{
         return new PermutationIterator<>(list);
     }
 
-    private class PermutationIterator<T> implements Iterator<List<T>> {
+    private class PermutationIterator<S> implements Iterator<List<S>> {
         private int n;
-        private List<T> list;
+        private List<S> list;
         private Deque<LinkedHashSet<Integer>> q;
-        private List<T> ptr;
+        private List<S> ptr;
 
-        public PermutationIterator(List<T> list) {
+        public PermutationIterator(List<S> list) {
             this.n = list.size();
             this.list = list;
             this.q = new ArrayDeque<>();
@@ -54,7 +54,7 @@ public  class Permutations<T> implements Iterable<List<T>>{
         }
 
         @Override
-        public List<T> next() {
+        public List<S> next() {
             return this.ptr;
         }
     }
