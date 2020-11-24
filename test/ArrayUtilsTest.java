@@ -15,7 +15,7 @@ class ArrayUtilsTest {
 
     @Test
     void bisectRightは二分探索でもっとも右側の挿入点を探す() {
-        assertEquals(5, ArrayUtils.bisectRight(new int[] {111, 222, 333, 333, 333, 444, 555}, 333));
-        assertEquals(5, ArrayUtils.bisectRight(Arrays.asList(111, 222, 333, 333, 333, 444, 555), 333));
+        assertEquals(5, arrayUtils.bisectRight(new int[] {111, 222, 333, 333, 333, 444, 555}, 333));
+        assertEquals(5, arrayUtils.bisectRight(Arrays.asList(111, 222, 333, 333, 333, 444, 555), 333));
     }
 }

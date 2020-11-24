@@ -41,7 +41,7 @@ public class ArrayUtils {
         return ok;
     }
 
-    public static int bisectRight(int[] a, int x) {
+    public int bisectRight(int[] a, int x) {
         int ng = -1;
         int ok = a.length;
         while (Math.abs(ok-ng) > 1) {
@@ -97,7 +97,7 @@ public class ArrayUtils {
         return ok;
     }
 
-    public static <T> int bisectRight(List<? extends Comparable<? super T>> a, T x) {
+    public <T> int bisectRight(List<? extends Comparable<? super T>> a, T x) {
         int ng = -1;
         int ok = a.size();
         while (Math.abs(ok-ng) > 1) {
