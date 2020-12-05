@@ -118,4 +118,20 @@ public class ArrayUtils {
     public String join(long[] a, String delimiter) {
         return Arrays.stream(a).mapToObj(String::valueOf).collect(Collectors.joining(delimiter));
     }
+
+    public int max(int[] a) {
+        return Arrays.stream(a).max().getAsInt();
+    }
+
+    public long max(long[] a) {
+        return Arrays.stream(a).max().getAsLong();
+    }
+
+    public int min(int[] a) {
+        return Arrays.stream(a).min().getAsInt();
+    }
+
+    public long min(long[] a) {
+        return Arrays.stream(a).min().getAsLong();
+    }
 }
