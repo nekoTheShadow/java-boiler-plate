@@ -51,4 +51,12 @@ public class MathUtils {
     public long lcm(long x, long y) {
         return (x * y) / gcd(x, y);
     }
+
+    public long ceilDiv(long x, long y) {
+        if (x%y == 0) {
+            return x/y;
+        } else {
+            return x/y + 1;
+        }
+    }
 }
