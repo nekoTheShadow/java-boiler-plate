@@ -134,4 +134,16 @@ public class ArrayUtils {
     public long min(long[] a) {
         return Arrays.stream(a).min().getAsLong();
     }
+
+    public void swap(int[] a, int x, int y) {
+        int tmp = a[x];
+        a[x] = a[y];
+        a[x] = tmp;
+    }
+
+    public void swap(long[] a, int x, int y) {
+        long tmp = a[x];
+        a[x] = a[y];
+        a[x] = tmp;
+    }
 }
