@@ -146,4 +146,48 @@ public class ArrayUtils {
         a[x] = a[y];
         a[x] = tmp;
     }
+
+    public void sort(int[] a) {
+        int len = a.length;
+        if (len < 2) {
+            return ;
+        }
+
+        int[] a1 = Arrays.copyOfRange(a, 0, len/2);
+        int[] a2 = Arrays.copyOfRange(a, len/2, len);
+        sort(a1);
+        sort(a2);
+
+        int p1 = 0;
+        int p2 = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (p2==a2.length || (p1<a1.length && a1[p1]<=a2[p2])) {
+                a[i] = a1[p1++];
+            } else {
+                a[i] = a2[p2++];
+            }
+        }
+    }
+
+    public void sort(long[] a) {
+        int len = a.length;
+        if (len < 2) {
+            return ;
+        }
+
+        long[] a1 = Arrays.copyOfRange(a, 0, len/2);
+        long[] a2 = Arrays.copyOfRange(a, len/2, len);
+        sort(a1);
+        sort(a2);
+
+        int p1 = 0;
+        int p2 = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (p2==a2.length || (p1<a1.length && a1[p1]<=a2[p2])) {
+                a[i] = a1[p1++];
+            } else {
+                a[i] = a2[p2++];
+            }
+        }
+    }
 }
