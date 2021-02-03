@@ -8,11 +8,13 @@ public class FordFulkerson {
         private int to;
         private long cost;
         private int rev;
-        public Edge(int from, int to, long cost, int rev) {
+        private boolean origin;
+        public Edge(int from, int to, long cost, int rev, boolean origin) {
             this.from = from;
             this.to = to;
             this.cost = cost;
             this.rev = rev;
+            this.origin = origin;
         }
     }
 
@@ -30,8 +32,8 @@ public class FordFulkerson {
     public void addEdge(int from, int to, long cost) {
         int fromRev = this.g.get(from).size();
         int toRev = this.g.get(to).size();
-        this.g.get(from).add(new Edge(from, to, cost, toRev));
-        this.g.get(to).add(new Edge(to, from, 0, fromRev));
+        this.g.get(from).add(new Edge(from, to, cost, toRev, true));
+        this.g.get(to).add(new Edge(to, from, 0, fromRev, false));
     }
 
     private void runFlow(Edge e, long f) {
