@@ -29,7 +29,7 @@ public class Dijkstra {
         while (!q.isEmpty()) {
             Tuple t = q.remove();
             if (!edges.containsKey(t.current)) continue; // 次がない場合
-            if (score[t.current] <= t.cost) continue; // cost情報が古い場合
+            if (score[t.current] < t.cost) continue; // cost情報が古い場合
 
             for (Edge e : edges.getOrDefault(t.current, Collections.emptyList())) {
                 if (t.cost + e.cost < score[e.next]) {
