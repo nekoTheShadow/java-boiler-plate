@@ -1,10 +1,16 @@
+import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Array;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Main {
     public void exec() {
@@ -22,31 +28,34 @@ public class Main {
         }
     }
 
-    // ASCII ONLY
     public static class Stdin {
-        private InputStream in;
-        private byte[] buf;
-        private int ptr;
-        private int len;
+        private Deque<String> queue;
+        private BufferedReader in;
+        private Pattern space;
 
         public Stdin(InputStream in) {
-            this.in = in;
-            this.buf = new byte[1024];
-            this.ptr = 0;
-            this.len = 0;
+            this.queue = new ArrayDeque<>();
+            this.in = new BufferedReader(new InputStreamReader(in));
+            this.space = Pattern.compile(" ");
         }
 
         public String nextString() {
-            StringBuilder sb = new StringBuilder();
-            byte b;
-            while ((b = read()) != -1) {
-                sb.appendCodePoint(b);
+            if (queue.isEmpty()) {
+                try {
+                    String line = in.readLine();
+                    if (line == null) {
+                        throw new EOFException();
+                    }
+                    space.splitAsStream(line).forEach(this.queue::addLast);
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
             }
-            return sb.toString();
+            return queue.removeFirst();
         }
 
         public int nextInt() {
-            return (int)nextLong();
+            return Integer.parseInt(nextString());
         }
 
         public double nextDouble() {
@@ -54,47 +63,7 @@ public class Main {
         }
 
         public long nextLong() {
-            boolean negative = false;
-            int x = 0;
-
-            byte b = read();
-            if (b == '-') {
-                negative = true;
-            } else {
-                x += b-'0';
-            }
-
-            while ((b=read()) != -1) {
-                x *= 10;
-                x += b-'0';
-            }
-
-            return negative ? -x : x;
-        }
-
-        private byte read() {
-            byte b = readByte();
-            if (b == '\r') {
-                readByte(); // LFを読み飛ばす
-                return -1;
-            } else if (b == '\n' || b == ' ') {
-                return -1;
-            } else {
-                return b;
-            }
-        }
-
-        private byte readByte(){
-            if (len == ptr) {
-                try {
-                    ptr = 0;
-                    len = in.read(buf);
-                    if (len == -1) return -1;
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            }
-            return buf[ptr++];
+            return Long.parseLong(nextString());
         }
 
         public String[] nextStringArray(int n) {
