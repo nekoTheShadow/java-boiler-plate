@@ -6,10 +6,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -18,7 +16,6 @@ public class Main {
 
     private static final Stdin stdin = new Stdin(System.in);
     private static final Stdout stdout = new Stdout(System.out);
-    private static final Stderr stderr = new Stderr(System.err, false);
 
     public static void main(String[] args) {
         try {
@@ -108,46 +105,6 @@ public class Main {
 
         public void flush() {
             stdout.flush();
-        }
-    }
-
-    public static class Stderr {
-        private PrintWriter stderr;
-        private boolean debug;
-
-        public Stderr(PrintStream stderr, boolean debug) {
-            this.stderr =  new PrintWriter(stderr, false);
-            this.debug = debug;
-        }
-
-        public void println(Object ... objs) {
-            if (!debug) return ;
-
-            stderr.print("DEBUG: ");
-            for (int i = 0, len = objs.length; i < len; i++) {
-                stderr.print(deepToString(objs[i]));
-                if (i != len-1) stderr.print(' ');
-            }
-            stderr.println();
-            stderr.flush();
-        }
-
-        private String deepToString(Object o) {
-            if (o == null) {
-                return "null";
-            }
-
-            // 配列の場合
-            if (o.getClass().isArray()) {
-                int len = Array.getLength(o);
-                String[] tokens = new String[len];
-                for (int i = 0; i < len; i++) {
-                    tokens[i] = deepToString(Array.get(o, i));
-                }
-                return "{" + String.join(", ", tokens) + "}";
-            }
-
-            return Objects.toString(o);
         }
     }
 }
