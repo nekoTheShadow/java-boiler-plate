@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.math.BigInteger;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ public class MainTest {
 
     @Test
     public void testStdin() {
-        InputStream is = new ByteArrayInputStream("111 222 333\nABC DEF GHI\r\n444 555\n66.66\r\n-77 -88\n".getBytes());
+        InputStream is = new ByteArrayInputStream("111 222 333\nABC DEF GHI\r\n444 555\n66.66\r\n-77 -88\n99999999999999999999999999".getBytes());
         Main.Stdin stdin = new Main.Stdin(is);
         assertEquals(111, stdin.nextInt());
         assertEquals(222, stdin.nextInt());
@@ -24,6 +25,7 @@ public class MainTest {
         assertEquals(66.66, stdin.nextDouble());
         assertEquals(-77, stdin.nextInt());
         assertEquals(-88, stdin.nextInt());
+        assertEquals(new BigInteger("99999999999999999999999999"), stdin.nextBigInteger());
     }
 
     @Test

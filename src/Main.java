@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UncheckedIOException;
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.regex.Pattern;
@@ -62,6 +63,10 @@ public class Main {
         public long nextLong() {
             return Long.parseLong(nextString());
         }
+        
+        public BigInteger nextBigInteger() {
+            return new BigInteger(nextString());
+        }
 
         public String[] nextStringArray(int n) {
             String[] a = new String[n];
@@ -84,6 +89,12 @@ public class Main {
         public long[] nextLongArray(int n) {
             long[] a = new long[n];
             for (int i = 0; i < n; i++) a[i] = nextLong();
+            return a;
+        }
+        
+        public BigInteger[] nexBigIntegerArray(int n) {
+            BigInteger[] a = new BigInteger[n];
+            for (int i = 0; i < n; i++) a[i] = nextBigInteger();
             return a;
         }
     }
