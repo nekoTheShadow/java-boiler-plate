@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class Dijkstra {
             if (!edges.containsKey(t.current)) continue; // 次がない場合
             if (score[t.current] < t.cost) continue; // cost情報が古い場合
 
-            for (Edge e : edges.getOrDefault(t.current, Collections.emptyList())) {
+            for (Edge e : edges.get(t.current)) {
                 if (t.cost + e.cost < score[e.next]) {
                     score[e.next] = t.cost + e.cost;
                     q.add(new Tuple(e.next, score[e.next]));
