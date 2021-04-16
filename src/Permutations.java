@@ -1,10 +1,10 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.Arrays;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
+// https://flex.phys.tohoku.ac.jp/~maru/implementations/next_permutation.php
 public  class Permutations<T> implements Iterable<List<T>>{
     private List<T> list;
     public Permutations(List<T> list) {
@@ -17,45 +17,47 @@ public  class Permutations<T> implements Iterable<List<T>>{
     }
 
     private class PermutationIterator<S> implements Iterator<List<S>> {
-        private int n;
         private List<S> list;
-        private Deque<LinkedHashSet<Integer>> q;
-        private List<S> ptr;
+        private int[] a;
+        private int n;
 
         public PermutationIterator(List<S> list) {
-            this.n = list.size();
             this.list = list;
-            this.q = new ArrayDeque<>();
-            for (int i = 0; i < n; i++) {
-                LinkedHashSet<Integer> set = new LinkedHashSet<>();
-                set.add(i);
-                q.add(set);
-            }
+            this.n = list.size();
         }
-
+  
         @Override
         public boolean hasNext() {
-            while (!q.isEmpty()) {
-                LinkedHashSet<Integer> set = q.removeFirst();
-                if (set.size() == n) {
-                    this.ptr = set.stream().map(list::get).collect(Collectors.toList());
-                    return true;
-                } else {
-                    for (int i = 0; i < n; i++) {
-                        if (set.contains(i)) continue;
-                        LinkedHashSet<Integer> nextSet = new LinkedHashSet<>();
-                        nextSet.addAll(set);
-                        nextSet.add(i);
-                        q.addLast(nextSet);
-                    }
-                }
+            if (a==null) {
+                this.a = IntStream.range(0, n).toArray();
+                return true;
             }
-            return false;
+            
+            int i = n - 1;
+            while (i-1 >= 0 && a[i-1] > a[i]) i--;
+            if (i==0) return false;
+            
+            int j = i;
+            while (j+1 < n && a[i-1] < a[j+1]) j++;
+            
+            swap(i-1, j);
+            
+            int s = i;
+            int t = n-1;
+            while (s < t) swap(s++, t--);
+            
+            return true;
+        }
+        
+        private void swap(int x, int y) {
+            int tmp = a[x];
+            a[x] = a[y];
+            a[y] = tmp;
         }
 
         @Override
         public List<S> next() {
-            return this.ptr;
+            return Arrays.stream(a).mapToObj(i -> list.get(i)).collect(Collectors.toList());
         }
     }
 }
