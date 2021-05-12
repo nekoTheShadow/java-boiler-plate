@@ -59,4 +59,22 @@ public class MathUtils {
             return x/y + 1;
         }
     }
+    
+    /**
+     * 度数法からラジアンに変換します。
+     * @param a 度数法
+     * @return ラジアン
+     */
+    public double rad(double a) {
+        return Math.PI * a / 180;
+    }
+    
+    /**
+     * ラジアンから度数法に変換します。
+     * @param b ラジアン
+     * @return 度数法
+     */
+    public double deg(double b) {
+        return b * 180 / Math.PI;
+    }
 }
