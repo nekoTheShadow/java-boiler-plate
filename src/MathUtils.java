@@ -1,5 +1,7 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class MathUtils {
     public long pow(long x, long y) {
@@ -30,6 +32,18 @@ public class MathUtils {
         }
 
         return d;
+    }
+    
+    public int[] primes(int n) {
+        boolean[] isprime = new boolean[n+1];
+        Arrays.fill(isprime, true);
+        isprime[0] = isprime[1] = false;
+        for (int i = 2; i*i <= n; i++) {
+            if (!isprime[i]) continue;
+            for (int j = i * 2; j <= n; j+=i) isprime[j] = false;
+        }
+        
+        return IntStream.rangeClosed(2, n).filter(i -> isprime[i]).toArray();
     }
 
     public long gcd(long x, long y) {
