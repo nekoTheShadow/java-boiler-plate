@@ -16,17 +16,17 @@ public class MathUtils {
         return z;
     }
 
-    public Map<Integer, Integer> primeDivision(int n) {
-        Map<Integer, Integer> d = new HashMap<>();
-        for (int k = 2; k*k <= n; k++) {
+    public Map<Long, Long> primeDivision(long n) {
+        Map<Long, Long> d = new HashMap<>();
+        for (long k = 2; k*k <= n; k++) {
             while (n % k == 0) {
-                d.put(k, d.getOrDefault(k, 0) + 1);
+                d.put(k, d.getOrDefault(k, 0L) + 1);
                 n  /= k;
             }
         }
 
         if (n > 1) {
-            d.put(n, d.getOrDefault(n, 0) + 1);
+            d.put(n, d.getOrDefault(n, 0L) + 1);
         }
 
         return d;
