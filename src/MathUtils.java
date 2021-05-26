@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -90,5 +91,25 @@ public class MathUtils {
      */
     public double deg(double b) {
         return b * 180 / Math.PI;
+    }
+    
+    public BigInteger gcd(BigInteger x, BigInteger y) {
+        if (x.compareTo(y) < 0) {
+            BigInteger tmp = x;
+            x = y;
+            y= tmp;
+        }
+
+        while (y.compareTo(BigInteger.ZERO) > 0) {
+            BigInteger mod = x.mod(y);
+            x = y;
+            y = mod;
+        }
+
+        return x;
+    }
+
+    public BigInteger lcm(BigInteger x, BigInteger y) {
+        return x.multiply(y).divide(gcd(x, y));
     }
 }
