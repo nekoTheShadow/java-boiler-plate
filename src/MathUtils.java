@@ -1,6 +1,9 @@
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
@@ -111,5 +114,32 @@ public class MathUtils {
 
     public BigInteger lcm(BigInteger x, BigInteger y) {
         return x.multiply(y).divide(gcd(x, y));
+    }
+    
+    
+    public List<Long> digits(long x) {
+        if (x==0) return List.of(0L);
+
+        List<Long> a = new ArrayList<>();
+        while (x > 0) {
+            a.add(x%10);
+            x/=10;
+        }
+        
+        Collections.reverse(a);
+        return a;
+    }
+    
+    public List<Integer> digits(int x) {
+        if (x==0) return List.of(0);
+
+        List<Integer> a = new ArrayList<>();
+        while (x > 0) {
+            a.add(x%10);
+            x/=10;
+        }
+        
+        Collections.reverse(a);
+        return a;
     }
 }
