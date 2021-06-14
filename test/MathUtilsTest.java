@@ -10,8 +10,10 @@ class MathUtilsTest {
 
     @Test
     void primeDivisionは与えられた整数の素因数分解を行う() {
-        assertEquals(Map.of(2, 1, 5, 1), mathUtils.primeDivision(10));
-        assertEquals(Map.of(2, 2, 3, 1), mathUtils.primeDivision(12));
+        Map<Long, Long> actual = mathUtils.primeDivision(12);
+        assertEquals(2, actual.size());
+        assertEquals(2, actual.get(2L));
+        assertEquals(1, actual.get(3L));
     }
 
     @Test
