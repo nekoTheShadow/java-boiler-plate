@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -190,4 +191,21 @@ public class ArrayUtils {
             }
         }
     }
+    
+    public long[] lis(long[] a) {
+        int n = a.length;
+        List<Long> b = new ArrayList<>();
+        long[] c = new long[n];
+        for (int i = 0; i < n; i++) {
+            int x = bisectLeft(b, a[i]);
+            if (b.size() == x) {
+                b.add(a[i]);
+            } else {
+                b.set(x, a[i]);
+            }
+            c[i] = x+1;
+        }
+        return c;
+    }
+
 }
