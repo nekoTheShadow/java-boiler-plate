@@ -8,10 +8,7 @@ import java.io.PrintWriter;
 import java.io.UncheckedIOException;
 import java.math.BigInteger;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
-import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 public class Main {
@@ -69,62 +66,6 @@ public class Main {
         
         public BigInteger nextBigInteger() {
             return new BigInteger(nextString());
-        }
-
-        public String[] nextStringArray(int n) {
-            String[] a = new String[n];
-            for (int i = 0; i < n; i++) a[i] = nextString();
-            return a;
-        }
-
-        public int[] nextIntArray(int n) {
-            int[] a = new int[n];
-            for (int i = 0; i < n; i++) a[i] = nextInt();
-            return a;
-        }
-
-        public double[] nextDoubleArray(int n) {
-            double[] a = new double[n];
-            for (int i = 0; i < n; i++) a[i] = nextDouble();
-            return a;
-        }
-
-        public long[] nextLongArray(int n) {
-            long[] a = new long[n];
-            for (int i = 0; i < n; i++) a[i] = nextLong();
-            return a;
-        }
-        
-        public BigInteger[] nexBigIntegerArray(int n) {
-            BigInteger[] a = new BigInteger[n];
-            for (int i = 0; i < n; i++) a[i] = nextBigInteger();
-            return a;
-        }
-        
-        public List<Integer> nextIntegerList(int n) {
-            return nextList(n, this::nextInt);
-        }
-        
-        public List<Long> nextLongList(int n) {
-            return nextList(n, this::nextLong);
-        }
-        
-        public List<Double> nextDoubleList(int n) {
-            return nextList(n, this::nextDouble);
-        }
-        
-        public List<String> nextStringList(int n) {
-            return nextList(n, this::nextString);
-        }
-        
-        public List<BigInteger> nextBigIntegerList(int n) {
-            return nextList(n, this::nextBigInteger);
-        }
-        
-        private <T> List<T> nextList(int n, Supplier<T> supplier) {
-            List<T> a = new ArrayList<>();
-            for (int i = 0; i < n; i++) a.add(supplier.get());
-            return a;
         }
     }
 
