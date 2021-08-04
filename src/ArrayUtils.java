@@ -4,6 +4,32 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ArrayUtils {
+    public int[][] rotateClockWise(int[][] a) {
+        int n = a.length;
+        int m = a[0].length;
+
+        int[][] b = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                b[i][j] = a[n-1-j][i];
+            }
+        }
+        return b;
+    }
+
+    public long[][] rotateClockWise(long[][] a) {
+        int n = a.length;
+        int m = a[0].length;
+
+        long[][] b = new long[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                b[i][j] = a[n-1-j][i];
+            }
+        }
+        return b;
+    }
+
     public void reverse(int[] a) {
         for (int i = 0, n = a.length; i < n/2; i++) {
             int t = a[i];
@@ -191,7 +217,7 @@ public class ArrayUtils {
             }
         }
     }
-    
+
     public long[] lis(long[] a) {
         int n = a.length;
         List<Long> b = new ArrayList<>();
