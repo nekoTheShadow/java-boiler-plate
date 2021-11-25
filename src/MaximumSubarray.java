@@ -3,7 +3,7 @@
  */
 public class MaximumSubarray {
     public static MaximumSubarray solve(long[] array) {
-        long bestSum = 0;
+        long bestSum = Long.MIN_VALUE;
         long currentSum = 0;
 
         int currentStart = 0;
