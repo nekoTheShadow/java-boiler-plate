@@ -4,11 +4,13 @@ import java.util.stream.IntStream;
 public class UnionFind {
     private int[] parent;
     private int[] size;
+    private int groupCount;
 
     public UnionFind(int n) {
         this.parent = IntStream.range(0, n).toArray();
         this.size = new int[n];
         Arrays.fill(this.size, 1);
+        this.groupCount = n;
     }
 
     public int find(int x) {
@@ -29,6 +31,8 @@ public class UnionFind {
         if (x == y) {
             return ;
         }
+        
+        groupCount--;
 
         if (size[x] < size[y]) {
             parent[x] = y;
@@ -42,5 +46,9 @@ public class UnionFind {
 
     public int size(int x) {
         return size[find(x)];
+    }
+    
+    public int groupCount() {
+        return groupCount;
     }
 }
