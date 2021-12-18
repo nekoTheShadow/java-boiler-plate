@@ -28,4 +28,14 @@ class ArrayUtilsTest {
         assertTrue(Arrays.equals(new long[] {1, 2, 3, 4}, a));
         assertTrue(Arrays.equals(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, b));
     }
+    
+    @Test
+    void compressは座標圧縮を行う() {
+        long[] a = new long[] {6, 9, 9, 2, 100};
+        int[] b = new int[] {6, 9, 9, 2, 100};
+        arrayUtils.compress(a);
+        arrayUtils.compress(b);
+        assertTrue(Arrays.equals(a, new long[] {1, 2, 2, 0, 3}));
+        assertTrue(Arrays.equals(b, new int[] {1, 2, 2, 0, 3}));
+    }
 }

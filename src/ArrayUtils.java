@@ -1,9 +1,24 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class ArrayUtils {
+    public void compress(int[] a) {
+        int[] b = Arrays.stream(a).sorted().distinct().toArray();
+        Map<Integer, Integer> d = IntStream.range(0, b.length).boxed().collect(Collectors.toMap(i -> b[i], Function.identity()));
+        IntStream.range(0, a.length).forEach(i -> a[i] = d.get(a[i]));
+    }
+    
+    public void compress(long[] a) {
+        long[] b = Arrays.stream(a).sorted().distinct().toArray();
+        Map<Long, Integer> d = IntStream.range(0, b.length).boxed().collect(Collectors.toMap(i -> b[i], Function.identity()));
+        IntStream.range(0, a.length).forEach(i -> a[i] = d.get(a[i]));
+    }
+    
     public int[][] rotateClockWise(int[][] a) {
         int n = a.length;
         int m = a[0].length;
