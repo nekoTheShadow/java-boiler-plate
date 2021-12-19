@@ -19,6 +19,19 @@ public class ArrayUtils {
         IntStream.range(0, a.length).forEach(i -> a[i] = d.get(a[i]));
     }
     
+    public char[][] rotateClockWise(char[][] a) {
+        int n = a.length;
+        int m = a[0].length;
+
+        char[][] b = new char[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                b[i][j] = a[n-1-j][i];
+            }
+        }
+        return b;
+    }
+    
     public int[][] rotateClockWise(int[][] a) {
         int n = a.length;
         int m = a[0].length;
