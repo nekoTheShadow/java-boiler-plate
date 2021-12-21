@@ -246,20 +246,20 @@ public class ArrayUtils {
         }
     }
 
-    public long[] lis(long[] a) {
+    // 数列aの最長増加部分列の長さを求める。
+    // strict=true のとき狭義(厳密に増加する列), false のとき広義で求める。
+    // https://ei1333.github.io/luzhiled/snippets/dp/longest-increasing-subsequence.html
+    public long[] lis(long[] a, boolean strict) {
         int n = a.length;
         List<Long> b = new ArrayList<>();
-        long[] c = new long[n];
         for (int i = 0; i < n; i++) {
-            int x = bisectLeft(b, a[i]);
+            int x = strict ? bisectLeft(b, a[i]) : bisectRight(b, a[i]);
             if (b.size() == x) {
                 b.add(a[i]);
             } else {
                 b.set(x, a[i]);
             }
-            c[i] = x+1;
         }
-        return c;
+        return b.stream().mapToLong(Long::longValue).toArray();
     }
-
 }
