@@ -6,13 +6,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Tsort {
-    
+    private int n;
     private int[] count;
     private List<List<Integer>> nexts;
+    private List<Integer> result;
     
     public Tsort(int n) {
+        this.n = n;
         this.count = new int[n];
         this.nexts = IntStream.range(0, n).mapToObj(unused -> new ArrayList<Integer>()).collect(Collectors.toList());
+        this.result = null;
     }
     
     public void add(int from, int to) {
@@ -21,22 +24,33 @@ public class Tsort {
     }
     
     public List<Integer> run() {
-        Deque<Integer> queue = IntStream.range(0, this.count.length)
-                                        .filter(i -> count[i]==0)
-                                        .boxed()
-                                        .collect(Collectors.toCollection(ArrayDeque::new));
-        List<Integer> result = new ArrayList<>();
+        if (result != null) {
+            return result;
+        }
         
-        while (!queue.isEmpty()) {
-            Integer cur = queue.removeFirst();
+        result = new ArrayList<>();
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            if (count[i] == 0) {
+                stack.addFirst(i);
+            }
+        }
+       
+        
+        while (!stack.isEmpty()) {
+            Integer cur = stack.removeFirst();
             result.add(cur);
             for (int nxt : nexts.get(cur)) {
                this.count[nxt]--;
                if (this.count[nxt]==0) {
-                   queue.add(nxt);
+                   stack.addFirst(nxt);
                }
             }
         }
         return result;
+    }
+    
+    public boolean hasCycle() {
+        return run().size() != n;
     }
 }
