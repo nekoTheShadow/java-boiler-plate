@@ -160,5 +160,12 @@ public class StringUtils {
         }
         return dp[n1][n2];
     }
+    
+    /**
+     * 文字列S内の部分文字列のうち、最長の回文を探索します。
+     */
+    public String longestPalindromeSubseq(String s) {
+        return lcs(s, new StringBuilder(s).reverse().toString());
+    }
 }
 
